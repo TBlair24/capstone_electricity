@@ -1,0 +1,10 @@
+feature,feature_label,mean_abs_shap
+staff_per_1000_cust,Staff per 1000 customers,1.6049535
+loss_trend_slope,Loss trend slope,1.5341114
+customers_per_km,Customers per km,1.4563191
+trans_access,Transmission access,1.4393011
+om_per_customer,O&M cost per customer,1.1457216
+transformer_density,Transformer density,0.46632016
+network_growth_rate,Network growth rate,0.11251395
+line_density_gis,Line density (GIS),0.016561436
+is_rural,Rural flag,0.0
