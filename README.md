@@ -2,13 +2,35 @@
 ### Using Machine Learning and Geospatial Feature Engineering
 
 **Author:** Tony Blair Ochieng | Jan26/MAIDS/0077U  
-**Course:** CAI 7202 Capstone Project I  
+**Course:** CAI 7202 Capstone Project I · CAI 8103 Capstone Project II  
 **Institution:** Uganda Technology and Management University (UTAMU)  
 **Year:** 2026
 
 ---
 
-## Project Summary
+## Capstone II (CAI 8103): leakage-safe re-evaluation
+
+Capstone II rebuilds the Capstone I analysis as a modular, tested Python pipeline in `capstone2/`.
+Its outputs are in `outputs/capstone2/`. See [`capstone2/README.md`](capstone2/README.md) for the
+step-by-step changes relative to Capstone I.
+
+```bash
+pip install -r requirements.txt
+python capstone2/run_all.py      # 7 pipeline steps, then 6 automated tests (~1 minute)
+```
+
+- **Leakage removed.** Capstone I's `loss_trend_slope` feature contained the current year's outcome. Capstone II replaces it with features built only from earlier years: `loss_lag1` and `loss_slope_lag3`.
+- **Two validation designs.** Models are tested by leave-one-licensee-out validation (holding out each licensee in turn) and by year-by-year forecasting. Results are compared against both a mean baseline and a naïve "same as last year" baseline (`loss_lag1`).
+- **GIS and clustering fixes.** Transmission length is clipped to each service area. Archetypes are clustered on one profile per licensee, and their stability is checked by bootstrap resampling.
+- **Out-of-fold SHAP.** Feature importance is calculated only on licensees the model did not see during training.
+
+**CAT 1 submission (19 Oct 2026):** the exact submitted code is on branch `capstone2` and tag `capstone2-cat1`.
+The submitted progress report, work plan, evidence and source snapshot are archived in [`capstone_2/`](capstone_2/).
+The Capstone I state is tagged `capstone1-final`.
+
+---
+
+## Capstone I Summary
 
 This study applies machine learning to identify the spatial and operational drivers of electricity
 distribution losses across Uganda's 13 licensed service areas, using ERA regulatory data (2009–2022)
@@ -29,11 +51,14 @@ capstone_electricity/
 ├── data/
 │   ├── raw/                  ← ERA Excel files (download — see below)
 │   ├── gis/                  ← GeoJSON files (download — see below)
-│   └── processed/            ← Generated CSVs (auto-created by notebook)
+│   └── processed/            ← Capstone I CSVs (also the inputs to Capstone II)
 ├── notebooks/
-│   └── uganda_electricity_loss_risk.ipynb   ← Main analysis notebook
+│   └── uganda_electricity_loss_risk.ipynb   ← Capstone I analysis notebook
+├── capstone2/                ← Capstone II pipeline (7 scripts + run_all.py + tests/)
 ├── outputs/
-│   └── figures/              ← All 14 figures (auto-generated)
+│   ├── figures/              ← Capstone I: 14 figures
+│   └── capstone2/            ← Capstone II: tables/ (CSV) and figures/ (PNG)
+├── capstone_2/               ← Archived Capstone II CAT 1 submission (do not edit)
 ├── requirements.txt
 └── README.md
 ```
@@ -63,24 +88,27 @@ capstone_electricity/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/TBlair24/capstone-electricity-losses-uganda
-cd capstone-electricity-losses-uganda
+git clone https://github.com/TBlair24/capstone_electricity
+cd capstone_electricity
 
 # 2. Install dependencies
 pip install -r requirements.txt
 
 # 3. Download data files (see above)
 
-# 4. Launch Jupyter
+# 4a. Capstone I: launch Jupyter
 jupyter notebook notebooks/uganda_electricity_loss_risk.ipynb
+
+# 4b. Capstone II: run the pipeline and tests
+python capstone2/run_all.py
 ```
 
-Run all cells in order. Each phase prints a completion message and saves intermediate CSVs
+For the Capstone I notebook, run all cells in order. Each phase prints a completion message and saves intermediate CSVs
 to `data/processed/` and figures to `outputs/figures/`.
 
 ---
 
-## Notebook Phases
+## Capstone I Notebook Phases
 
 | Phase | Cells | Description |
 |---|---|---|
@@ -93,7 +121,7 @@ to `data/processed/` and figures to `outputs/figures/`.
 
 ---
 
-## Key Technical Decisions
+## Capstone I Key Technical Decisions
 
 **Why entity-level LOOCV?**  
 Observations from the same licensee across years are not independent. Entity-level LOOCV holds
@@ -111,7 +139,7 @@ Removing them is mathematically and theoretically justified.
 
 ---
 
-## Figures Generated
+## Capstone I Figures
 
 | Figure | File | Description |
 |---|---|---|

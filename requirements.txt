@@ -32,3 +32,6 @@ seaborn>=0.12.0
 # Notebook
 jupyter>=1.0.0
 nbformat>=5.9.0
+
+# Testing (Capstone II: capstone2/run_all.py runs the test suite)
+pytest>=7.0.0
