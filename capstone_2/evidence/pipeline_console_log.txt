@@ -1,0 +1,167 @@
+
+######## gis_features.py ########
+districts_total           166.0
+districts_assigned         61.0
+area_assigned_pct          27.5
+operational_dist_km     33606.4
+dist_km_assigned_pct       70.0
+operational_trans_km     1453.1
+ entity  gis_imputed  line_density_gis  trans_km_join  trans_km_clipped  trans_access_join  trans_access_clipped
+  UMEME            0            0.6218      1219.4815          406.3721             0.0445                0.0148
+   CNST            0            0.1145       115.2488           24.6763             0.0152                0.0033
+    EST            1            0.2938       147.3935           12.3734             0.0739                0.0062
+   MWST            0            0.3540         0.0000            0.0000             0.0000                0.0000
+   NEST            0            0.0073       241.7422           87.0140             0.0253                0.0091
+  NNWST            1            0.2938         0.0000            0.0000             0.0000                0.0000
+   NWST            1            0.2938            NaN               NaN             0.0152                0.0033
+    SST            0            0.2938        46.3166           19.5174             0.0172                0.0072
+   SWST            0            0.8090         0.0000            0.0000             0.0000                0.0000
+   BECS            1            0.2938            NaN               NaN             0.0000                0.0000
+    KIL            1            0.2938            NaN               NaN             0.0000                0.0000
+  KRECS            1            0.2938            NaN               NaN             0.0000                0.0000
+PACMECS            1            0.2938         0.0000            0.0000             0.0000                0.0000
+
+######## build_panel.py ########
+Annual rows: 132; analytical panel: 119 licensee-years, 13 licensees, 2009-2022; complete-case rows: 74
+Missing % (imputed inside model pipelines):
+customers_per_km       37.8
+transformer_density    37.8
+network_growth_rate    37.8
+loss_slope_lag3        10.9
+         count   min   max
+entity                    
+BECS         9  2012  2020
+CNST         7  2016  2022
+EST          5  2018  2022
+KIL         12  2011  2022
+KRECS        8  2015  2022
+MWST         5  2018  2022
+NEST         5  2018  2022
+NNWST        5  2018  2022
+NWST        13  2010  2022
+PACMECS     10  2013  2022
+SST         13  2010  2022
+SWST        13  2010  2022
+UMEME       14  2009  2022
+
+######## archetypes.py ########
+Silhouette (entity level): {2: 0.199, 3: 0.226, 4: 0.237, 5: 0.322, 6: 0.318}
+Bootstrap ARI: mean 0.815, median 0.787, share ARI=1: 0.46, share >=0.8: 0.46, 5th pct 0.457
+archetype                  A: Rural cooperative                            B: Peri-urban UEDCL C: Urban / dense
+licensees                                     4                                              8                1
+members               BECS, KIL, KRECS, PACMECS  CNST, EST, MWST, NEST, NNWST, NWST, SST, SWST            UMEME
+customers_per_km                         16.528                                          6.502           39.389
+transformer_density                       0.184                                          0.215            0.364
+staff_per_1000_cust                       5.925                                          2.763            1.765
+om_per_customer                           0.041                                           0.06              0.0
+network_growth_rate                       0.047                                          0.041            0.011
+line_density_gis                          0.294                                          0.307            0.622
+trans_access_clipped                        0.0                                          0.004            0.015
+is_rural                                    1.0                                            0.0              0.0
+loss_pct                                 21.918                                         27.907           19.194
+
+######## models.py ########
+Specification             Model   RMSE    MAE     R2   Bias  RMSE_lo  RMSE_hi  dRMSE_vs_mean_lo  dRMSE_vs_mean_hi  dRMSE_vs_persist_lo  dRMSE_vs_persist_hi
+    Reference     Mean baseline 11.949  9.326 -0.054  0.045    9.290   14.326             0.000             0.000                0.416                4.170
+    Reference Naive persistence  9.673  6.524  0.309  0.702    6.744   12.579            -4.170            -0.416                0.000                0.000
+   Structural             Ridge 12.819 10.204 -0.213 -0.337   10.504   14.745            -0.040             2.340                1.007                5.518
+   Structural     Random Forest 13.121 10.623 -0.271 -1.844   10.492   15.324             0.275             2.317                1.574                5.648
+   Structural           XGBoost 12.752 10.136 -0.201 -0.643   10.095   15.052             0.004             1.732                1.198                5.189
+  Persistence             Ridge  9.824  7.341  0.287 -0.046    7.823   11.722            -3.517            -0.722               -1.074                1.761
+  Persistence     Random Forest  9.679  7.259  0.308 -0.707    7.462   11.802            -3.747            -0.817               -1.076                1.576
+  Persistence           XGBoost  9.403  7.106  0.347 -0.054    7.202   11.334            -3.733            -1.253               -1.661                1.477
+     Forecast             Ridge  9.988  7.447  0.263 -0.031    7.922   11.863            -3.250            -0.591               -1.030                2.016
+     Forecast     Random Forest  9.634  7.206  0.315 -0.770    7.426   11.734            -3.721            -0.910               -1.122                1.503
+     Forecast           XGBoost  9.574  7.226  0.323 -0.074    7.227   11.611            -3.316            -1.329               -1.555                1.563
+
+Complete-case sensitivity:
+Specification             Model   RMSE    MAE     R2
+    Reference     Mean baseline 12.114  9.358 -0.099
+    Reference Naive persistence  7.988  5.986  0.522
+   Structural             Ridge 13.872 11.070 -0.442
+   Structural     Random Forest 13.252 10.543 -0.316
+   Structural           XGBoost 13.142 10.606 -0.294
+  Persistence             Ridge  8.738  6.932  0.428
+  Persistence     Random Forest  7.923  6.194  0.530
+  Persistence           XGBoost  8.197  6.551  0.497
+     Forecast             Ridge  8.939  7.102  0.401
+     Forecast     Random Forest  7.891  6.164  0.534
+     Forecast           XGBoost  8.158  6.521  0.501
+
+Ablation (Ridge, LOEO):
+                                    Variant   RMSE    MAE     R2   Bias
+                    Forecast (all features)  9.988  7.447  0.263 -0.031
+                         minus GIS features 10.218  7.585  0.229 -0.440
+                 minus operational features  9.534  6.822  0.329  0.094
+              lags only (loss_lag1 + slope)  9.270  6.492  0.366  0.030
+          Structural + clipped transmission 12.819 10.204 -0.213 -0.337
+Structural + join transmission (Capstone I) 12.323  9.679 -0.121 -0.142
+
+Rolling-origin RMSE by year:
+Model      Forecast Ridge  Forecast XGBoost  Mean baseline  Naive persistence  Structural Ridge  Structural XGBoost
+test_year                                                                                                          
+2014                13.74             10.93          13.94              13.65             13.88               12.99
+2015                 8.77              7.40           9.56               8.46             11.78               12.90
+2016                 7.00              6.36           8.62               6.71              7.59                8.34
+2017                 5.92              7.91           7.15               6.37              6.28                7.63
+2018                11.04             10.82          10.64               8.91             12.72               12.64
+2019                 9.87              9.51          10.66               8.43             11.14               10.85
+2020                13.02             13.23          15.44               9.67             15.81               15.44
+2021                 7.86              8.20          12.46               7.48             12.07               10.44
+2022                 5.55              5.53          11.09               6.47              9.92                9.89
+
+######## leakage_audit.py ########
+                                  Trend feature  RMSE   MAE    R2   Bias  corr_with_current_change
+               Capstone I contemporaneous slope 6.833 4.782 0.655 -0.227                     0.742
+                      One-quarter-shifted slope 6.313 4.760 0.706 -0.183                     0.816
+Strict annual lag, years t-3..t-1 (Capstone II) 9.988 7.447 0.263 -0.031                    -0.220
+
+######## explain.py ########
+
+== Structural ==
+                        label  xgb_mean_abs_shap  xgb_sd_abs_shap  ridge_mean_abs_contrib  ridge_coef_mean  ridge_coef_sd  ridge_coef_sign_stable
+    Staff per 1,000 customers              1.796            1.092                   1.646           -2.139          0.453                    True
+             O&M per customer              1.197            1.461                   0.452           -0.614          0.325                   False
+             Customers per km              1.180            1.290                   0.553           -0.004          0.546                   False
+Transmission access (clipped)              0.858            0.645                   0.999           -1.552          0.541                    True
+          Transformer density              0.552            0.591                   0.523           -0.878          0.448                    True
+          Network growth rate              0.398            0.337                   0.582           -0.809          0.203                    True
+             GIS-imputed flag              0.179            0.178                   1.236            1.170          0.550                   False
+           Line density (GIS)              0.138            0.247                   0.495           -0.289          0.333                   False
+                   Rural flag              0.130            0.119                   1.418           -1.480          0.536                    True
+
+== Persistence ==
+                        label  xgb_mean_abs_shap  xgb_sd_abs_shap  ridge_mean_abs_contrib  ridge_coef_mean  ridge_coef_sd  ridge_coef_sign_stable
+           Previous-year loss              5.025            2.932                   4.617            5.783          0.436                    True
+             O&M per customer              1.181            1.447                   0.834           -1.103          0.310                    True
+    Staff per 1,000 customers              0.881            0.532                   0.809           -1.017          0.262                    True
+             Customers per km              0.474            0.374                   0.682            0.566          0.406                   False
+          Network growth rate              0.474            0.456                   0.753           -1.022          0.203                    True
+             GIS-imputed flag              0.350            0.259                   0.976            0.886          0.305                    True
+Transmission access (clipped)              0.306            0.216                   1.084           -1.533          0.457                    True
+          Transformer density              0.220            0.195                   0.376           -0.575          0.303                   False
+           Line density (GIS)              0.032            0.035                   0.813           -0.765          0.293                    True
+                   Rural flag              0.022            0.042                   1.396           -1.385          0.341                    True
+
+== Forecast ==
+                        label  xgb_mean_abs_shap  xgb_sd_abs_shap  ridge_mean_abs_contrib  ridge_coef_mean  ridge_coef_sd  ridge_coef_sign_stable
+           Previous-year loss              4.415            2.555                   4.053            5.133          0.578                    True
+     Lagged 3-year loss slope              1.266            0.796                   0.670            1.009          0.226                    True
+             O&M per customer              1.088            1.366                   0.810           -1.096          0.340                    True
+    Staff per 1,000 customers              0.893            0.530                   0.919           -1.146          0.252                    True
+             Customers per km              0.413            0.300                   0.586            0.368          0.431                   False
+          Network growth rate              0.392            0.406                   0.696           -0.944          0.212                    True
+          Transformer density              0.220            0.194                   0.314           -0.488          0.312                   False
+Transmission access (clipped)              0.196            0.134                   1.073           -1.506          0.454                    True
+             GIS-imputed flag              0.149            0.135                   0.900            0.827          0.313                    True
+                   Rural flag              0.045            0.059                   1.309           -1.315          0.358                    True
+           Line density (GIS)              0.036            0.047                   0.702           -0.650          0.319                    True
+
+######## figures.py ########
+Figures written to /home/claude/capstone_electricity/outputs/capstone2/figures
+
+######## tests ########
+......                                                                   [100%]
+6 passed in 0.35s
+
+Pipeline completed in 66 s

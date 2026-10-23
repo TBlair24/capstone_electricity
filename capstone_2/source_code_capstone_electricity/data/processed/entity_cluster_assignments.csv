@@ -1,0 +1,14 @@
+entity,cluster_rank,entity_type,cluster_name,mean_loss_pct
+BECS,0,rural_cooperative,Low-loss,37.67
+KIL,0,rural_cooperative,Low-loss,29.07
+KRECS,0,rural_cooperative,Low-loss,24.36
+PACMECS,0,rural_cooperative,Low-loss,19.31
+CNST,1,uedcl_territory,Moderate-loss,19.78
+MWST,1,uedcl_territory,Moderate-loss,28.05
+NEST,1,uedcl_territory,Moderate-loss,26.66
+NNWST,1,uedcl_territory,Moderate-loss,32.75
+EST,2,uedcl_territory,High-loss,19.15
+NWST,2,uedcl_territory,High-loss,38.46
+SST,2,uedcl_territory,High-loss,29.29
+SWST,2,uedcl_territory,High-loss,31.33
+UMEME,2,major_urban,High-loss,21.88
